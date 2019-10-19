@@ -4,5 +4,6 @@ public enum GlobalUpdate {
     CHANGE,
     CREATE,
     DELETE,
-    GET
+    GET,
+    GET_ALL
 }

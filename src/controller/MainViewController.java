@@ -15,9 +15,9 @@ public class MainViewController {
         this.addressBook = addressBook;
     }
 
-    public GlobalError createContact(String email, String name, String surname){
+    public GlobalError createContact(String name, String surname, String email){
         GlobalError error;
-        error = addressBook.createContact(email, name, surname);
+        error = addressBook.createContact(name, surname, email);
         return error;
     }
 
@@ -36,6 +36,12 @@ public class MainViewController {
     public GlobalError askForContact(String email){
         GlobalError error;
         error = addressBook.askForContact(email);
+        return error;
+    }
+
+    public GlobalError askForContacts(){
+        GlobalError error;
+        error = addressBook.askForContacts();
         return error;
     }
 }

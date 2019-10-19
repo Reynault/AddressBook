@@ -84,4 +84,9 @@ public class AddressBook extends Observable {
         setChanged();
         notifyObservers(code);
     }
+
+    public GlobalError askForContacts() {
+        update(GET_ALL);
+        return SUCCESS;
+    }
 }

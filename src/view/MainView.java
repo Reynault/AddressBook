@@ -1,26 +1,34 @@
 package view;
 
 import controller.MainViewController;
+import global.GlobalError;
+import global.GlobalUpdate;
 import global.GraphicConstant;
 import global.ressources.StringManager;
+import model.AddressBook;
+import model.contact.Contact;
+import view.showFrame.ShowPanelFactory;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.*;
 
-public class MainView {
+public class MainView implements Observer {
     private JFrame jFrame = new JFrame(StringManager.MAIN_FRAME_TITLE);
+
     private JButton create = new JButton(StringManager.CREATE_BUTTON);
     private JButton delete = new JButton(StringManager.DELETE_BUTTON);
+    private JButton show = new JButton(StringManager.SHOW_BUTTON);
+
+    private ShowFrame showFrame;
 
     private DefaultListModel<String> defaultListModel = new DefaultListModel<>();
     private JList<String> jlist = new JList<>(defaultListModel);
-
-    private ItemView itemView = new ItemView();
-    private EmptyView emptyView = new EmptyView();
 
     private MainViewController controller;
 
@@ -45,17 +53,6 @@ public class MainView {
         jlist.setFixedCellHeight(GraphicConstant.FIXED_CELL_HEIGHT);
         jlist.setCellRenderer(new CellRenderer());
 
-        defaultListModel.addElement("qsqsd");
-        defaultListModel.addElement("qqqq");
-        defaultListModel.addElement("qqqq");
-        defaultListModel.addElement("qqqq");
-        defaultListModel.addElement("qqqq");
-        defaultListModel.addElement("qqqq");
-        defaultListModel.addElement("qqqq");
-        defaultListModel.addElement("qqqq");
-        defaultListModel.addElement("qqqq");
-        defaultListModel.addElement("ssss");
-
         scrollPane.add(jlist);
         scrollPane.setViewportView(jlist);
 
@@ -71,20 +68,23 @@ public class MainView {
                 GraphicConstant.DELETE_BUTTON_HEIGHT
         ));
 
-        JPanel south = new JPanel();
-        south.setLayout(new BorderLayout());
+        show.setPreferredSize(new Dimension(
+                GraphicConstant.SHOW_BUTTON_WIDTH,
+                GraphicConstant.SHOW_BUTTON_HEIGHT
+        ));
 
-        contentPane.add(south, BorderLayout.SOUTH);
+        JPanel buttons = new JPanel();
+        buttons.add(create);
+        buttons.add(delete);
+        buttons.add(show);
 
-        JPanel north = new JPanel();
-        north.add(create);
-        north.add(delete);
-
-        south.add(north, BorderLayout.NORTH);
-        south.add(emptyView, BorderLayout.CENTER);
+        contentPane.add(buttons, BorderLayout.SOUTH);
 
         create.setEnabled(true);
         delete.setEnabled(false);
+        show.setEnabled(false);
+
+        showFrame = new ShowFrame();
 
         // Setting listeners
 
@@ -93,7 +93,18 @@ public class MainView {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 if (e.getValueIsAdjusting()) {
-                    delete.setEnabled(true);
+
+                    GlobalError code = controller.askForContact(
+                        jlist.getSelectedValue()
+                    );
+
+                    switch (code){
+                        case SUCCESS:
+                            delete.setEnabled(true);
+                            show.setEnabled(true);
+                            break;
+                    }
+
                 }
             }
         });
@@ -103,9 +114,17 @@ public class MainView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(jlist.getSelectedIndex() != -1 && !defaultListModel.isEmpty()){
-                    defaultListModel.remove(jlist.getSelectedIndex());
+                    GlobalError code = controller.removeContact(
+                            jlist.getSelectedValue()
+                    );
+
+                    switch (code){
+                        case SUCCESS:
+                            delete.setEnabled(false);
+                            break;
+                    }
+
                 }
-                delete.setEnabled(false);
             }
         });
 
@@ -113,12 +132,63 @@ public class MainView {
         create.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                /*GlobalError code = controller.createContact(
 
+                );*/
+                create.setEnabled(false);
+            }
+        });
+
+        // When show button is triggered
+        show.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showFrame.setVisible(!showFrame.isVisible());
             }
         });
 
         jFrame.pack();
         jFrame.setVisible(true);
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        GlobalUpdate code = (GlobalUpdate) arg;
+        AddressBook addressBook = (AddressBook) o;
+        switch (code){
+            case GET:
+                Contact c = addressBook.getContact(jlist.getSelectedValue());
+                showFrame.changePanel(
+                        ShowPanelFactory.getItemView(
+                                c.getName(), c.getSurname(), c.getEmail()
+                        )
+                );
+                showFrame.setVisible(true);
+                break;
+            case CHANGE:
+                // TODO
+                break;
+            case CREATE:
+                // TODO
+                break;
+            case DELETE:
+                defaultListModel.remove(jlist.getSelectedIndex());
+
+                showFrame.changePanel(
+                        ShowPanelFactory.getEmptyPanel()
+                );
+
+                showFrame.setVisible(false);
+                break;
+            case GET_ALL:
+                Collection<Contact> contacts = addressBook.getContacts();
+                Iterator<Contact> contactIterator = contacts.iterator();
+                while (contactIterator.hasNext()){
+                    Contact contact = contactIterator.next();
+                    defaultListModel.addElement(contact.getEmail());
+                }
+                break;
+        }
     }
 
     private class CellRenderer extends DefaultListCellRenderer {
