@@ -1,3 +1,5 @@
+package start;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -10,7 +12,7 @@ public class CSVReader {
   public static void main(String[] args) {
 	  CSVReader obj = new CSVReader();
     //valeur par défaut
-    String csvFileName = "addressbook.csv";
+    String csvFileName = "ressources/addressbook.csv";
     //on peut donner un autre fichier CSV en paramètre
     if(args.length>0) {
       csvFileName = args[0];

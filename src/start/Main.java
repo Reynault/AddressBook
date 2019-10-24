@@ -2,7 +2,11 @@ package start;
 
 import model.AddressBook;
 import model.Contact;
+import persistence.AbstractDAOFactory;
+import persistence.AddressBookDAO;
+import persistence.FactoryTypes;
 
+import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -12,11 +16,15 @@ public class Main {
     private static int MODIFY_CONTACT = 200;
 
     private static AddressBook addressBook;
+    private static AddressBookDAO addressBookDAO;
     private static Scanner sc;
 
     public static void main(String[] args) {
 
-        addressBook = new AddressBook();
+        addressBook = new AddressBook(new HashMap<>());
+        addressBookDAO = AbstractDAOFactory.getFactory(
+                FactoryTypes.CSV_DAO
+        ).getAddressBookDAO();
 
         sc = new Scanner(System.in);
 
@@ -54,6 +62,12 @@ public class Main {
                     break;
                 case 4:
                     changeContact(MODIFY_CONTACT);
+                    break;
+                case 5:
+                    save();
+                    break;
+                case 6:
+                    load();
                     break;
                 case 7:
                 default:
@@ -150,5 +164,13 @@ public class Main {
                 found = true;
             }
         }
+    }
+
+    private static void load(){
+        addressBook = addressBookDAO.load();
+    }
+
+    private static void save(){
+        addressBookDAO.save(addressBook);
     }
 }

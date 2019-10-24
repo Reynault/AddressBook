@@ -1,39 +1,39 @@
 =========
-CSVReader
+start.CSVReader
 =========
 
-CSVReader est un petit programme qui prend en argument un fichier CSV (ou alors
+start.CSVReader est un petit programme qui prend en argument un fichier CSV (ou alors
 le fichier addressbook.csv par défaut), le lit et affiche les données lues.
 
 Usage:
-java CSVReader [input file]
+java start.CSVReader [input file]
 
 Exemple :
 
-$> javac CSVReader.java
-$> java CSVReader addressbook.csv
+$> javac start.CSVReader.java
+$> java start.CSVReader addressbook.csv
 Contact #1 : James Bond (james.bond@mi5.co.uk)
 Contact #2 : Hari Seldon (hari.seldon@univ-streeling.trantor.org)
 Contact #3 : Rick Deckard (nexus6hunter@bladerunner.org)
 Done.
 
 =========
-CSVWriter
+start.CSVWriter
 =========
 
-CSVWriter est un petit programme qui montre comment écrire simplement dans un
+start.CSVWriter est un petit programme qui montre comment écrire simplement dans un
 fichier. S'agissant du format CSV, on concatène les données avec un séparateur.
 
-l'exemple \texttt{CSVWriter.java} et l'adaptes (il n'est pas du tout générique
+l'exemple \texttt{start.CSVWriter.java} et l'adaptes (il n'est pas du tout générique
 et ne pourra donc être réutiliser tel quel dans votre projet) :
 
 Usage:
-java CSVWriter [output file]
+java start.CSVWriter [output file]
 
 Exemple :
 
-$> javac CSVWriter.java
-$> java CSVWriter testwriter.csv
+$> javac start.CSVWriter.java
+$> java start.CSVWriter testwriter.csv
 >$ ls *csv
 testwriter.csv
 

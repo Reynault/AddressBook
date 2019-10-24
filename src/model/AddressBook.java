@@ -7,8 +7,8 @@ import java.util.Set;
 public class AddressBook {
     private HashMap<String, Contact> contacts;
 
-    public AddressBook() {
-        this.contacts = new HashMap<String, Contact>();
+    public AddressBook(HashMap<String, Contact> contacts) {
+        this.contacts = contacts;
     }
 
     public void addContact(Contact contact) {
