@@ -1,0 +1,71 @@
+=========
+CSVReader
+=========
+
+CSVReader est un petit programme qui prend en argument un fichier CSV (ou alors
+le fichier addressbook.csv par défaut), le lit et affiche les données lues.
+
+Usage:
+java CSVReader [input file]
+
+Exemple :
+
+$> javac CSVReader.java
+$> java CSVReader addressbook.csv
+Contact #1 : James Bond (james.bond@mi5.co.uk)
+Contact #2 : Hari Seldon (hari.seldon@univ-streeling.trantor.org)
+Contact #3 : Rick Deckard (nexus6hunter@bladerunner.org)
+Done.
+
+=========
+CSVWriter
+=========
+
+CSVWriter est un petit programme qui montre comment écrire simplement dans un
+fichier. S'agissant du format CSV, on concatène les données avec un séparateur.
+
+l'exemple \texttt{CSVWriter.java} et l'adaptes (il n'est pas du tout générique
+et ne pourra donc être réutiliser tel quel dans votre projet) :
+
+Usage:
+java CSVWriter [output file]
+
+Exemple :
+
+$> javac CSVWriter.java
+$> java CSVWriter testwriter.csv
+>$ ls *csv
+testwriter.csv
+
+==================
+DBConnexionExample
+==================
+
+Il faut au préalable créer la base de données (JDBC). En cas de souci, on
+pourra se référer à \url{https://netbeans.org/kb/docs/ide/java-db.html}.
+
+Ce petit programme montre comment effectuer des requêtes SQL sur une base
+nommée « addressbook » dont le schéma est le suivant :
+
+CREATE TABLE Contact (
+  nom VARCHAR(50), 
+  prenom VARCHAR(50), 
+  email VARCHAR(50)
+);
+LA base est peuplée avec les données suivantes :
+INSERT INTO Contact (nom, prenom, email) VALUES
+('Bond', 'James', 'james.bond@mi5.co.uk'),
+('Seldon', 'Hari', 'hari.seldon@univ-streeling.trantor.org'),
+('Deckard', 'Rick', 'nexus6hunter@bladerunner.org');
+
+Le tout est fourni dans le script addressbook.sql.
+
+L'utilisateur est toto, son mot de passe toto.
+
+Il effectue une requête SELECT, puis INSERT, puis UPDATE et enfin DELETE. Le
+code montre aussi deux types de requêtes SQL (paramétrées ou non) et la manière
+de les utiliser. Le fichier d'exemple disponible sur l'ENT,
+DBConnectionExample.java, est largement commenté pour que vous ne perdiez pas
+de temps à chercher le fonctionnement de la couche de persistance.
+
+\end{document}
