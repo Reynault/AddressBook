@@ -12,13 +12,22 @@ public class AddressBookCSV implements AddressBookDAO {
 
     private String file_path_input = "ressources/csv/input";
     private String default_file_input = "addressbook.csv";
-    private String full_path_input = file_path_input+"/"+ default_file_input;
+    private String full_path_input = file_path_input + "/" + default_file_input;
 
     private String file_path_output = "ressources/csv/output";
     private String default_file_output = "addressbook.csv";
-    private String full_path_output = file_path_output+"/"+ default_file_output;
+    private String full_path_output = file_path_output + "/" + default_file_output;
 
-    AddressBookCSV(){
+    private static AddressBookCSV instance;
+
+    public static AddressBookCSV getInstance() {
+        if (instance == null) {
+            instance = new AddressBookCSV();
+        }
+        return instance;
+    }
+
+    private AddressBookCSV() {
         reader = new CSVReader();
         writer = new CSVWriter();
     }

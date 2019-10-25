@@ -6,6 +6,6 @@ import persistence.AddressBookDAO;
 public class SqlDAOFactory extends AbstractDAOFactory {
     @Override
     public AddressBookDAO getAddressBookDAO() {
-        return new AddressBookSQL();
+        return AddressBookSQL.getInstance();
     }
 }

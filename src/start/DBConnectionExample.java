@@ -1,14 +1,6 @@
 package start;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import org.apache.derby.jdbc.ClientDriver;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.*;
 
 public class DBConnectionExample {
 
@@ -23,10 +15,10 @@ public class DBConnectionExample {
         }
         try {
 
-            String queryStringSelect = "SELECT * FROM JCB.CONTACT";
-            String queryStringSelect2 = "SELECT * FROM JCB.CONTACT WHERE nom=?";
+            String queryStringSelect = "SELECT * FROM CONTACT";
+            String queryStringSelect2 = "SELECT * FROM CONTACT WHERE nom=?";
             //requête hardcodée
-            String queryStringInsert = "INSERT INTO JCB.CONTACT (CONTACT.nom, CONTACT.prenom, CONTACT.email) VALUES ('TOTO', 'toto', 't.toto@toto.fr')";
+            String queryStringInsert = "INSERT INTO CONTACT (CONTACT.nom, CONTACT.prenom, CONTACT.email) VALUES ('TOTO', 'toto', 't.toto@toto.fr')";
             //requête paramétrée, mieux
             String queryStringInsert2 = "INSERT INTO Contact (nom, prenom, email) VALUES (?, ?, ?)";
             //Hardcodées, à vous de les paramétrer au besoin
@@ -118,7 +110,7 @@ public class DBConnectionExample {
         DriverManager.registerDriver(new org.apache.derby.jdbc.ClientDriver());
         //adapter cette partie en fonction du login, mot de passe et nom de la
         //base
-        c = DriverManager.getConnection("jdbc:derby://localhost:1527/addressbook;create=true", "toto", "toto");
+        c = DriverManager.getConnection("jdbc:derby://localhost:1527/addressbook;create=true", "root", "root");
         //Autre version
         //c = DerbyPersistenceProvider.getInstance().getConnection();
         return c;

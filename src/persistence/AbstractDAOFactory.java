@@ -5,22 +5,16 @@ import persistence.sql.SqlDAOFactory;
 
 public abstract class AbstractDAOFactory {
 
-    private static AbstractDAOFactory csv = new CsvDAOFactory();
-    private static AbstractDAOFactory sql = new SqlDAOFactory();
-
     public static AbstractDAOFactory getFactory(FactoryTypes type) {
         AbstractDAOFactory res;
         switch (type) {
-            case CSV_DAO:
-                res = csv;
-                break;
-
             case SQL_DAO:
-                res = sql;
+                res = new SqlDAOFactory();
                 break;
 
+            case CSV_DAO:
             default:
-                res = csv;
+                res = new CsvDAOFactory();
         }
 
         return res;

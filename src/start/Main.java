@@ -23,7 +23,7 @@ public class Main {
 
         addressBook = new AddressBook(new HashMap<>());
         addressBookDAO = AbstractDAOFactory.getFactory(
-                FactoryTypes.CSV_DAO
+                FactoryTypes.SQL_DAO
         ).getAddressBookDAO();
 
         sc = new Scanner(System.in);

@@ -11,11 +11,16 @@ public class AddressBook {
         this.contacts = contacts;
     }
 
+    public AddressBook() {
+        contacts = new HashMap<>();
+    }
+
     public void addContact(Contact contact) {
         contacts.put(contact.getEmail(), contact);
     }
 
     public void removeContact(String email) {
+        System.out.println("remove ?");
         contacts.remove(email);
     }
 

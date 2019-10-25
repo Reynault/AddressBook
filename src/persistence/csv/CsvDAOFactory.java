@@ -6,6 +6,6 @@ import persistence.AddressBookDAO;
 public class CsvDAOFactory extends AbstractDAOFactory {
     @Override
     public AddressBookDAO getAddressBookDAO() {
-        return new AddressBookCSV();
+        return AddressBookCSV.getInstance();
     }
 }
